@@ -1,0 +1,2020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Love JAYNE - Christmas Tree</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(ellipse at bottom, #0a1529 0%, #050a14 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            position: relative;
+            cursor: pointer;
+        }
+
+        /* 背景星星 - 大幅优化 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .star-bg {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: twinkle 5s infinite alternate;
+        }
+
+        /* 优化雪花效果 - 多层雪花 */
+        .snowflakes-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .snowflake {
+            position: absolute;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.5));
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(0.5px);
+            box-shadow: 
+                0 0 10px rgba(255, 255, 255, 0.5),
+                0 0 20px rgba(200, 230, 255, 0.3);
+        }
+
+        .snowflake.small {
+            width: 4px;
+            height: 4px;
+        }
+
+        .snowflake.medium {
+            width: 6px;
+            height: 6px;
+        }
+
+        .snowflake.large {
+            width: 8px;
+            height: 8px;
+        }
+
+        /* 粒子效果 */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* 主容器 */
+        .main-container {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 10;
+            padding-top: 180px;
+            padding-bottom: 150px;
+        }
+
+        /* 标题区域 - 大幅优化文字特效 */
+        .title-section {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 100;
+            animation: fadeIn 2s ease-out;
+            padding: 15px 0;
+        }
+
+        .main-title {
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: 3rem;
+            background: linear-gradient(90deg, #ff66b2, #ff99cc, #cc99ff, #66ccff);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientShift 5s infinite alternate, float 3s ease-in-out infinite;
+            text-shadow: 
+                0 0 10px rgba(255, 102, 178, 0.5),
+                0 0 20px rgba(255, 102, 178, 0.3),
+                0 0 30px rgba(255, 102, 178, 0.2);
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+            line-height: 1.3;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .main-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff66b2, transparent);
+            border-radius: 3px;
+        }
+
+        .girl-name {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            color: #ffccff;
+            text-shadow: 
+                0 0 10px rgba(255, 204, 255, 0.7),
+                0 0 20px rgba(255, 102, 178, 0.5),
+                0 0 30px rgba(255, 102, 178, 0.3);
+            margin-bottom: 8px;
+            line-height: 1.3;
+            letter-spacing: 1px;
+            padding: 0 20px;
+            animation: glow 2s infinite alternate;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ffccff;
+            opacity: 0.9;
+            font-weight: 300;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.5;
+            margin-top: 5px;
+            letter-spacing: 0.5px;
+            padding: 0 20px;
+            animation: fadeInOut 3s infinite;
+        }
+
+        /* 实时计时器 - 优化文字特效 */
+        .live-timer {
+            position: absolute;
+            top: 180px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 95;
+            padding: 15px 0;
+        }
+
+        .timer-title {
+            font-size: 1.3rem;
+            color: #ffccff;
+            margin-bottom: 15px;
+            font-family: 'Mountains of Christmas', cursive;
+            line-height: 1.5;
+            letter-spacing: 1.5px;
+            padding: 0 20px;
+            text-shadow: 0 0 10px rgba(255, 204, 255, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        .timer-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 0 20px;
+        }
+
+        .time-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 102, 178, 0.2);
+            padding: 12px 15px;
+            border-radius: 15px;
+            min-width: 90px;
+            box-shadow: 
+                0 4px 15px rgba(0, 0, 0, 0.3),
+                inset 0 0 10px rgba(255, 204, 255, 0.1);
+            border: 1px solid rgba(255, 204, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .time-unit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .time-unit:hover::before {
+            left: 100%;
+        }
+
+        .time-unit:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 8px 20px rgba(0, 0, 0, 0.4),
+                inset 0 0 15px rgba(255, 204, 255, 0.2);
+            border-color: rgba(255, 204, 255, 0.5);
+        }
+
+        .time-value {
+            font-size: 2.2rem;
+            color: #ff66b2;
+            font-weight: bold;
+            text-shadow: 
+                0 0 10px rgba(255, 102, 178, 0.6),
+                0 0 20px rgba(255, 102, 178, 0.3);
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.2;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            font-variant-numeric: tabular-nums;
+            animation: countUp 0.5s ease-out;
+        }
+
+        .time-label {
+            font-size: 1rem;
+            color: #ffccff;
+            font-family: 'Mountains of Christmas', cursive;
+            line-height: 1.3;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px rgba(255, 204, 255, 0.5);
+        }
+
+        .start-date {
+            font-size: 1rem;
+            color: #cc99ff;
+            opacity: 0.9;
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.4;
+            letter-spacing: 0.5px;
+            margin-top: 8px;
+            padding: 0 20px;
+            text-shadow: 0 0 5px rgba(204, 153, 255, 0.5);
+        }
+
+        /* 圣诞树容器 */
+        .tree-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+            margin: 40px 0;
+            min-height: 750px;
+        }
+
+        .tree-container > * {
+            pointer-events: auto;
+        }
+
+        /* 圣诞树 - 大幅优化特效 */
+        .tree {
+            position: relative;
+            width: 550px;
+            height: 700px;
+            filter: drop-shadow(0 10px 30px rgba(0, 100, 0, 0.3));
+            transform-origin: center center;
+            animation: gentleSway 8s ease-in-out infinite;
+        }
+
+        /* 树层级 - 添加发光效果 */
+        .tree-layer {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 115px solid transparent;
+            border-right: 115px solid transparent;
+            border-bottom: 150px solid #0a7c0a;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            filter: 
+                drop-shadow(0 0 10px rgba(10, 124, 10, 0.7))
+                drop-shadow(0 0 20px rgba(10, 124, 10, 0.3));
+            z-index: 2;
+            transition: all 0.3s ease;
+            animation: layerGlow 4s ease-in-out infinite alternate;
+        }
+
+        .tree-layer::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: -105px;
+            width: 0;
+            height: 0;
+            border-left: 105px solid transparent;
+            border-right: 105px solid transparent;
+            border-bottom: 145px solid #0db90d;
+            z-index: -1;
+        }
+
+        .tree-layer:nth-child(2) {
+            border-bottom-color: #0b8e0b;
+            bottom: 120px;
+            border-left-width: 125px;
+            border-right-width: 125px;
+            border-bottom-width: 160px;
+            z-index: 3;
+            animation-delay: 0.5s;
+        }
+
+        .tree-layer:nth-child(2)::before {
+            left: -115px;
+            border-left-width: 115px;
+            border-right-width: 115px;
+            border-bottom-width: 155px;
+            border-bottom-color: #0ecd0e;
+        }
+
+        .tree-layer:nth-child(3) {
+            border-bottom-color: #0ca50c;
+            bottom: 240px;
+            border-left-width: 135px;
+            border-right-width: 135px;
+            border-bottom-width: 170px;
+            z-index: 4;
+            animation-delay: 1s;
+        }
+
+        .tree-layer:nth-child(3)::before {
+            left: -125px;
+            border-left-width: 125px;
+            border-right-width: 125px;
+            border-bottom-width: 165px;
+            border-bottom-color: #0ff30f;
+        }
+
+        .tree-layer:nth-child(4) {
+            border-bottom-color: #0db90d;
+            bottom: 380px;
+            border-left-width: 115px;
+            border-right-width: 115px;
+            border-bottom-width: 150px;
+            z-index: 5;
+            animation-delay: 1.5s;
+        }
+
+        .tree-layer:nth-child(4)::before {
+            left: -105px;
+            border-left-width: 105px;
+            border-right-width: 105px;
+            border-bottom-width: 145px;
+            border-bottom-color: #0ff30f;
+        }
+
+        /* 树干 - 添加纹理和光泽 */
+        .trunk {
+            position: absolute;
+            width: 55px;
+            height: 120px;
+            background: 
+                linear-gradient(to right, #8B4513 0%, #A0522D 50%, #8B4513 100%),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 10px,
+                    rgba(139, 69, 19, 0.3) 10px,
+                    rgba(139, 69, 19, 0.3) 12px
+                );
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 10px;
+            z-index: 1;
+            box-shadow: 
+                inset 0 0 10px rgba(0, 0, 0, 0.5),
+                0 5px 15px rgba(139, 69, 19, 0.3);
+        }
+
+        /* 树顶爱心 - 优化特效 */
+        .heart-top {
+            position: absolute;
+            top: 110px;
+            left: 50%;
+            transform: translateX(-50%) rotate(0deg);
+            color: #ff66b2;
+            font-size: 80px;
+            filter: drop-shadow(0 0 25px #ff66b2);
+            animation: 
+                heartbeat 1.5s infinite alternate, 
+                float-heart 4s ease-in-out infinite,
+                spin 10s linear infinite;
+            cursor: pointer;
+            z-index: 25;
+            text-shadow: 
+                0 0 30px rgba(255, 102, 178, 0.8),
+                0 0 60px rgba(255, 102, 178, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .heart-top:hover {
+            transform: translateX(-50%) scale(1.2);
+            filter: drop-shadow(0 0 35px #ff66b2);
+        }
+
+        /* 装饰品 - 大幅优化特效 */
+        .ornament {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            z-index: 10;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            color: white;
+            box-shadow: 
+                0 8px 20px rgba(0, 0, 0, 0.4),
+                inset 0 0 15px rgba(255, 255, 255, 0.3);
+            transform-origin: center center;
+            animation: ornamentFloat 4s ease-in-out infinite alternate;
+        }
+
+        .ornament:hover {
+            transform: scale(1.6) rotate(20deg);
+            z-index: 30;
+            box-shadow: 
+                0 0 30px rgba(255, 255, 255, 0.9),
+                inset 0 0 20px rgba(255, 255, 255, 0.5);
+            animation-play-state: paused;
+        }
+
+        /* 不同颜色的装饰品 - 优化渐变和光泽 */
+        .ornament.pink { 
+            background: radial-gradient(circle at 30% 30%, #ff66b2, #cc3399, #990066);
+            border: 2px solid #ffccff;
+        }
+        .ornament.purple { 
+            background: radial-gradient(circle at 30% 30%, #cc66ff, #9900cc, #660099);
+            border: 2px solid #e6ccff;
+        }
+        .ornament.light-blue { 
+            background: radial-gradient(circle at 30% 30%, #66ccff, #3399ff, #0066cc);
+            border: 2px solid #cce6ff;
+        }
+        .ornament.gold { 
+            background: radial-gradient(circle at 30% 30%, #ffcc00, #cc9900, #996600);
+            border: 2px solid #ffeb99;
+        }
+        .ornament.silver { 
+            background: radial-gradient(circle at 30% 30%, #f0f0f0, #a6a6a6, #666666);
+            border: 2px solid #ffffff;
+        }
+
+        /* 特殊装饰品：爱心 */
+        .ornament.heart-ornament {
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ff66b2, #cc3399, #990066);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: ornamentFloat 4s ease-in-out infinite alternate, heartBeat 2s infinite alternate;
+        }
+
+        .ornament.heart-ornament::before {
+            content: '❤';
+            font-size: 20px;
+            color: white;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* 特殊装饰品：情侣 */
+        .ornament.couple {
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ff9966, #ff6600, #cc5200);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: ornamentFloat 4s ease-in-out infinite alternate, pulse 2s infinite;
+        }
+
+        .ornament.couple::before {
+            content: '👫';
+            font-size: 20px;
+        }
+
+        /* 礼物 - 优化特效 */
+        .gifts {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            z-index: 2;
+            padding-bottom: 10px;
+        }
+
+        .gift {
+            width: 85px;
+            height: 85px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            animation: giftFloat 6s ease-in-out infinite alternate;
+        }
+
+        .gift:hover {
+            transform: translateY(-20px) scale(1.2) rotateY(20deg);
+            animation-play-state: paused;
+        }
+
+        .gift-box {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .gift-lid {
+            width: 100%;
+            height: 20px;
+            position: absolute;
+            top: -10px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .gift-pink .gift-box { 
+            background: linear-gradient(135deg, #ff66b2 0%, #cc3399 100%); 
+            box-shadow: 
+                inset 0 0 20px rgba(255, 102, 178, 0.5),
+                0 10px 25px rgba(255, 102, 178, 0.3);
+        }
+        .gift-pink .gift-lid { 
+            background: linear-gradient(135deg, #cc3399 0%, #990066 100%);
+            box-shadow: 0 -5px 15px rgba(204, 51, 153, 0.4);
+        }
+
+        .gift-purple .gift-box { 
+            background: linear-gradient(135deg, #cc66ff 0%, #9900cc 100%); 
+            box-shadow: 
+                inset 0 0 20px rgba(204, 102, 255, 0.5),
+                0 10px 25px rgba(204, 102, 255, 0.3);
+        }
+        .gift-purple .gift-lid { 
+            background: linear-gradient(135deg, #9900cc 0%, #660099 100%);
+            box-shadow: 0 -5px 15px rgba(153, 0, 204, 0.4);
+        }
+
+        .gift-lightblue .gift-box { 
+            background: linear-gradient(135deg, #66ccff 0%, #3399ff 100%); 
+            box-shadow: 
+                inset 0 0 20px rgba(102, 204, 255, 0.5),
+                0 10px 25px rgba(102, 204, 255, 0.3);
+        }
+        .gift-lightblue .gift-lid { 
+            background: linear-gradient(135deg, #3399ff 0%, #0066cc 100%);
+            box-shadow: 0 -5px 15px rgba(51, 153, 255, 0.4);
+        }
+
+        .gift-gold .gift-box { 
+            background: linear-gradient(135deg, #ffcc00 0%, #cc9900 100%); 
+            box-shadow: 
+                inset 0 0 20px rgba(255, 204, 0, 0.5),
+                0 10px 25px rgba(255, 204, 0, 0.3);
+        }
+        .gift-gold .gift-lid { 
+            background: linear-gradient(135deg, #cc9900 0%, #996600 100%);
+            box-shadow: 0 -5px 15px rgba(204, 153, 0, 0.4);
+        }
+
+        .gift-ribbon {
+            position: absolute;
+            background: linear-gradient(45deg, #ffeb3b, #ffc107);
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(255, 235, 59, 0.5);
+        }
+
+        .gift-ribbon.horizontal {
+            width: 100%;
+            height: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .gift-ribbon.vertical {
+            width: 12px;
+            height: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* 灯光效果 - 大幅优化 */
+        .lights {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .light {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            animation: twinkle 1.5s infinite alternate, colorChange 10s infinite alternate;
+            filter: blur(1px);
+            box-shadow: 0 0 15px currentColor;
+        }
+
+        /* 祝福语区域 - 优化特效 */
+        .message-container {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 90;
+            padding: 0 15px;
+        }
+
+        .message-box {
+            background: rgba(20, 30, 48, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px 30px;
+            display: inline-block;
+            max-width: 850px;
+            border: 1px solid rgba(255, 204, 255, 0.3);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.4),
+                inset 0 0 20px rgba(255, 204, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: messageBoxGlow 4s infinite alternate;
+        }
+
+        .message-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 204, 255, 0.1) 50%, transparent 70%);
+            z-index: -1;
+            animation: shine 6s infinite linear;
+        }
+
+        .message-text {
+            font-size: 1.3rem;
+            color: #ffccff;
+            line-height: 1.7;
+            font-family: 'Dancing Script', cursive;
+            text-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.5),
+                0 0 10px rgba(255, 204, 255, 0.3);
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+            padding: 0 5px;
+            animation: textGlow 3s infinite alternate;
+        }
+
+        .message-author {
+            font-size: 1rem;
+            color: #ff99cc;
+            text-align: right;
+            font-style: italic;
+            font-family: 'Poppins', sans-serif;
+            transition: opacity 0.5s ease;
+            line-height: 1.4;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 5px rgba(255, 153, 204, 0.5);
+        }
+
+        .message-hint {
+            font-size: 0.9rem;
+            color: #cc99ff;
+            margin-top: 10px;
+            opacity: 0.8;
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.4;
+            letter-spacing: 0.5px;
+            animation: fadeInOut 2s infinite;
+            text-shadow: 0 0 5px rgba(204, 153, 255, 0.5);
+        }
+
+        /* 音乐控制 - 优化特效 */
+        .music-control {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 100;
+        }
+
+        .music-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff66b2, #ff99cc);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(255, 102, 178, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            animation: musicBtnGlow 2s infinite alternate;
+        }
+
+        .music-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .music-btn:hover::before {
+            transform: translateX(100%);
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(255, 102, 178, 0.5);
+        }
+
+        /* 新增动画效果 */
+        @keyframes gentleSway {
+            0%, 100% { transform: rotate(-1deg); }
+            50% { transform: rotate(1deg); }
+        }
+
+        @keyframes layerGlow {
+            0% { filter: drop-shadow(0 0 10px rgba(10, 124, 10, 0.7)) drop-shadow(0 0 20px rgba(10, 124, 10, 0.3)); }
+            100% { filter: drop-shadow(0 0 15px rgba(10, 124, 10, 0.9)) drop-shadow(0 0 30px rgba(10, 124, 10, 0.5)); }
+        }
+
+        @keyframes ornamentFloat {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        @keyframes giftFloat {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-10px); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px rgba(255, 204, 255, 0.7), 0 0 20px rgba(255, 102, 178, 0.5), 0 0 30px rgba(255, 102, 178, 0.3); }
+            50% { text-shadow: 0 0 15px rgba(255, 204, 255, 0.9), 0 0 30px rgba(255, 102, 178, 0.7), 0 0 45px rgba(255, 102, 178, 0.5); }
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes countUp {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes spin {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            100% { transform: translateX(-50%) rotate(360deg); }
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes colorChange {
+            0% { color: #ff66b2; }
+            25% { color: #cc66ff; }
+            50% { color: #66ccff; }
+            75% { color: #ffcc00; }
+            100% { color: #ff66b2; }
+        }
+
+        @keyframes messageBoxGlow {
+            0% { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255, 204, 255, 0.1); }
+            100% { box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(255, 204, 255, 0.2); }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes textGlow {
+            0% { text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 204, 255, 0.3); }
+            100% { text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 204, 255, 0.6); }
+        }
+
+        @keyframes musicBtnGlow {
+            0% { box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 102, 178, 0.3); }
+            100% { box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 30px rgba(255, 102, 178, 0.5); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float-heart {
+            0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+            50% { transform: translateX(-50%) translateY(-10px) rotate(5deg); }
+        }
+
+        @keyframes heartbeat {
+            0% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.1); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        @keyframes snowFall {
+            0% { 
+                transform: translateY(-100px) translateX(0) rotate(0deg); 
+                opacity: 0;
+            }
+            10% { 
+                opacity: 1;
+            }
+            90% { 
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(100vh) translateX(30px) rotate(360deg); 
+                opacity: 0;
+            }
+        }
+
+        @keyframes snowFallSlow {
+            0% { 
+                transform: translateY(-100px) translateX(0) rotate(0deg); 
+                opacity: 0;
+            }
+            10% { 
+                opacity: 1;
+            }
+            90% { 
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(100vh) translateX(-20px) rotate(180deg); 
+                opacity: 0;
+            }
+        }
+
+        @keyframes snowFallFast {
+            0% { 
+                transform: translateY(-100px) translateX(0) rotate(0deg); 
+                opacity: 0;
+            }
+            10% { 
+                opacity: 1;
+            }
+            90% { 
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(100vh) translateX(15px) rotate(540deg); 
+                opacity: 0;
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1100px) {
+            .tree {
+                transform: scale(0.9);
+            }
+            
+            .main-title {
+                font-size: 2.6rem;
+            }
+            
+            .girl-name {
+                font-size: 2.4rem;
+            }
+            
+            .live-timer {
+                top: 160px;
+            }
+            
+            .time-value {
+                font-size: 1.8rem;
+            }
+            
+            .message-text {
+                font-size: 1.2rem;
+            }
+            
+            .main-container {
+                padding-top: 160px;
+                padding-bottom: 130px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .tree {
+                transform: scale(0.8);
+            }
+            
+            .main-title {
+                font-size: 2.2rem;
+            }
+            
+            .girl-name {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .live-timer {
+                top: 140px;
+                padding: 10px 0;
+            }
+            
+            .timer-title {
+                font-size: 1.2rem;
+            }
+            
+            .time-value {
+                font-size: 1.6rem;
+            }
+            
+            .time-unit {
+                min-width: 75px;
+                padding: 10px 12px;
+            }
+            
+            .message-text {
+                font-size: 1.1rem;
+            }
+            
+            .gift {
+                width: 75px;
+                height: 75px;
+            }
+            
+            .music-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.1rem;
+            }
+            
+            .main-container {
+                padding-top: 140px;
+                padding-bottom: 120px;
+            }
+            
+            .tree-container {
+                min-height: 600px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tree {
+                transform: scale(0.7);
+            }
+            
+            .title-section {
+                top: 10px;
+            }
+            
+            .main-title {
+                font-size: 1.8rem;
+            }
+            
+            .girl-name {
+                font-size: 1.6rem;
+            }
+            
+            .subtitle {
+                font-size: 0.9rem;
+            }
+            
+            .live-timer {
+                top: 120px;
+            }
+            
+            .timer-title {
+                font-size: 1rem;
+            }
+            
+            .timer-display {
+                gap: 8px;
+            }
+            
+            .time-value {
+                font-size: 1.4rem;
+            }
+            
+            .time-unit {
+                min-width: 65px;
+                padding: 8px 10px;
+            }
+            
+            .time-label {
+                font-size: 0.9rem;
+            }
+            
+            .start-date {
+                font-size: 0.9rem;
+            }
+            
+            .message-text {
+                font-size: 1rem;
+            }
+            
+            .message-box {
+                padding: 15px 20px;
+            }
+            
+            .gift {
+                width: 65px;
+                height: 65px;
+            }
+            
+            .music-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            
+            .main-container {
+                padding-top: 120px;
+                padding-bottom: 100px;
+            }
+            
+            .tree-container {
+                min-height: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景星星 -->
+    <div class="stars" id="stars-container"></div>
+    
+    <!-- 优化雪花效果 -->
+    <div class="snowflakes-container" id="snowflakes-container"></div>
+    
+    <!-- 粒子效果 -->
+    <div class="particles-container" id="particles-container"></div>
+    
+    <div class="main-container">
+        <!-- 标题区域 -->
+        <div class="title-section">
+            <h1 class="main-title">For My Love</h1>
+            <div class="girl-name">JAYNE</div>
+            <p class="subtitle">Special Christmas Tree · Our Romantic Holiday</p>
+        </div>
+        
+        <!-- 实时计时器 -->
+        <div class="live-timer">
+            <div class="timer-title">We've Been Together For</div>
+            <div class="timer-display">
+                <div class="time-unit">
+                    <span class="time-value" id="days">0</span>
+                    <span class="time-label">Days</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-value" id="hours">0</span>
+                    <span class="time-label">Hours</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-value" id="minutes">0</span>
+                    <span class="time-label">Minutes</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-value" id="seconds">0</span>
+                    <span class="time-label">Seconds</span>
+                </div>
+            </div>
+            <div class="start-date">Since October 9, 2025</div>
+        </div>
+
+        <!-- 圣诞树容器 -->
+        <div class="tree-container">
+            <!-- 圣诞树 -->
+            <div class="tree" id="tree">
+                <div class="trunk"></div>
+                <div class="tree-layer"></div>
+                <div class="tree-layer"></div>
+                <div class="tree-layer"></div>
+                <div class="tree-layer"></div>
+                <div class="heart-top">❤</div>
+                
+                <!-- 装饰品由JS动态生成 -->
+                
+                <!-- 礼物 -->
+                <div class="gifts">
+                    <div class="gift gift-pink" data-gift="1">
+                        <div class="gift-box">
+                            <div class="gift-lid"></div>
+                            <div class="gift-ribbon horizontal"></div>
+                            <div class="gift-ribbon vertical"></div>
+                        </div>
+                    </div>
+                    <div class="gift gift-purple" data-gift="2">
+                        <div class="gift-box">
+                            <div class="gift-lid"></div>
+                            <div class="gift-ribbon horizontal"></div>
+                            <div class="gift-ribbon vertical"></div>
+                        </div>
+                    </div>
+                    <div class="gift gift-lightblue" data-gift="3">
+                        <div class="gift-box">
+                            <div class="gift-lid"></div>
+                            <div class="gift-ribbon horizontal"></div>
+                            <div class="gift-ribbon vertical"></div>
+                        </div>
+                    </div>
+                    <div class="gift gift-gold" data-gift="4">
+                        <div class="gift-box">
+                            <div class="gift-lid"></div>
+                            <div class="gift-ribbon horizontal"></div>
+                            <div class="gift-ribbon vertical"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 灯光效果 -->
+                <div class="lights" id="lights-container"></div>
+            </div>
+        </div>
+        
+        <!-- 祝福语区域 -->
+        <div class="message-container">
+            <div class="message-box">
+                <div class="message-text" id="message-text">My dearest JAYNE, meeting you was the most beautiful surprise of my life. May this Christmas create more sweet memories with you.</div>
+                <div class="message-author" id="message-author">— Forever Yours</div>
+                <div class="message-hint">Click anywhere to change message</div>
+            </div>
+        </div>
+
+        <!-- 音乐控制 -->
+        <div class="music-control">
+            <button class="music-btn" id="music-toggle">
+                <i class="fas fa-music"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tree = document.getElementById('tree');
+            const lightsContainer = document.getElementById('lights-container');
+            const starsContainer = document.getElementById('stars-container');
+            const snowflakesContainer = document.getElementById('snowflakes-container');
+            const particlesContainer = document.getElementById('particles-container');
+            const heartTop = document.querySelector('.heart-top');
+            const gifts = document.querySelectorAll('.gift');
+            const musicToggle = document.getElementById('music-toggle');
+            const messageText = document.getElementById('message-text');
+            const messageAuthor = document.getElementById('message-author');
+            
+            // 计时器元素
+            const daysEl = document.getElementById('days');
+            const hoursEl = document.getElementById('hours');
+            const minutesEl = document.getElementById('minutes');
+            const secondsEl = document.getElementById('seconds');
+            
+            // 在一起的天数（从2025年10月9日开始）
+            const startDate = new Date('2025-10-09T00:00:00');
+            
+            // 英文情话库
+            const loveMessages = [
+                {
+                    text: "My dearest JAYNE, meeting you was the most beautiful surprise of my life. May this Christmas create more sweet memories with you.",
+                    author: "— Forever Yours"
+                },
+                {
+                    text: "You are like the star on top of the Christmas tree, lighting up the entire night sky of my world, making my life shine from then on.",
+                    author: "— Your Special Star"
+                },
+                {
+                    text: "Every day with you feels like Christmas, filled with surprises, warmth and endless love.",
+                    author: "— Thinking of You Everyday"
+                },
+                {
+                    text: "If Santa could only grant me one wish, I would wish to spend every future Christmas with you.",
+                    author: "— Wishing to Be With You Forever"
+                },
+                {
+                    text: "You are the Christmas gift I want the most, and also the treasure I cherish the most. I love you more than anything.",
+                    author: "— Holding You in My Heart"
+                },
+                {
+                    text: "Just as a Christmas tree needs decorations to be complete, my life becomes perfect and meaningful because of you.",
+                    author: "— Complete Because of You"
+                },
+                {
+                    text: "In this romantic season, I want to tell you: every day with you is the happiest time of my life.",
+                    author: "— Your Boyfriend Full of Happiness"
+                },
+                {
+                    text: "May our love be like this Christmas tree, evergreen and beautiful even through the changing seasons.",
+                    author: "— Wanting to Grow Old With You"
+                },
+                {
+                    text: "You are the warm candlelight that never goes out in my heart, giving me the deepest warmth in this cold winter.",
+                    author: "— Warmed By You"
+                },
+                {
+                    text: "If love had a shape, it would be the Christmas tree we decorated together, hung with sweet memories and future dreams.",
+                    author: "— Weaving Our Future Together"
+                },
+                {
+                    text: "Christmas miracles aren't about receiving gifts, but about meeting you. This must be the best arrangement from heaven.",
+                    author: "— Believing in Destiny"
+                },
+                {
+                    text: "You are the answer to all my Christmas wishes, the most perfect existence in my heart. I'll love you forever.",
+                    author: "— Loving You Eternally"
+                },
+                {
+                    text: "JAYNE, you make every moment magical. Being with you feels like a never-ending Christmas miracle.",
+                    author: "— Your Admirer"
+                },
+                {
+                    text: "My love for you grows stronger with each passing day, just like this Christmas tree standing tall through every season.",
+                    author: "— Always By Your Side"
+                },
+                {
+                    text: "You're the melody in my heart, the joy in my soul, and the light that guides me home. Merry Christmas, my love.",
+                    author: "— Your Beloved"
+                }
+            ];
+            
+            let currentMessageIndex = 0;
+            let ornaments = [];
+            let lights = [];
+            let snowflakes = [];
+            let particles = [];
+            let lightCount = 70; // 增加灯光数量
+            let twinkleSpeed = 5;
+            
+            // 初始化背景星星 - 大幅优化
+            function initStars() {
+                starsContainer.innerHTML = '';
+                
+                // 创建三种大小的星星
+                const starCount = 300;
+                
+                for (let i = 0; i < starCount; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star-bg';
+                    
+                    // 随机大小
+                    const size = Math.random() * 5 + 1;
+                    star.style.width = `${size}px`;
+                    star.style.height = `${size}px`;
+                    
+                    // 随机位置
+                    star.style.left = `${Math.random() * 100}vw`;
+                    star.style.top = `${Math.random() * 100}vh`;
+                    
+                    // 随机亮度
+                    const opacity = Math.random() * 0.8 + 0.2;
+                    star.style.opacity = opacity;
+                    
+                    // 随机动画
+                    const delay = Math.random() * 5;
+                    const duration = Math.random() * 4 + 2;
+                    star.style.animationDelay = `${delay}s`;
+                    star.style.animationDuration = `${duration}s`;
+                    
+                    // 随机颜色
+                    const colors = ['#ffffff', '#ffccff', '#ccffff', '#ffffcc', '#ffcc99'];
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    star.style.backgroundColor = color;
+                    star.style.boxShadow = `0 0 ${size * 3}px ${color}`;
+                    
+                    starsContainer.appendChild(star);
+                }
+            }
+            
+            // 优化雪花效果 - 多层雪花
+            function initSnowflakes() {
+                snowflakesContainer.innerHTML = '';
+                snowflakes = [];
+                
+                const snowflakeCount = 150;
+                
+                for (let i = 0; i < snowflakeCount; i++) {
+                    const snowflake = document.createElement('div');
+                    
+                    // 随机大小
+                    const sizeType = Math.random();
+                    if (sizeType < 0.5) {
+                        snowflake.className = 'snowflake small';
+                    } else if (sizeType < 0.8) {
+                        snowflake.className = 'snowflake medium';
+                    } else {
+                        snowflake.className = 'snowflake large';
+                    }
+                    
+                    // 随机起始位置
+                    snowflake.style.left = `${Math.random() * 100}vw`;
+                    
+                    // 随机透明度
+                    const opacity = Math.random() * 0.8 + 0.2;
+                    snowflake.style.opacity = opacity;
+                    
+                    // 随机动画类型
+                    const animationType = Math.random();
+                    let animationName, duration;
+                    
+                    if (animationType < 0.3) {
+                        animationName = 'snowFallSlow';
+                        duration = Math.random() * 25 + 20;
+                    } else if (animationType < 0.7) {
+                        animationName = 'snowFall';
+                        duration = Math.random() * 20 + 15;
+                    } else {
+                        animationName = 'snowFallFast';
+                        duration = Math.random() * 15 + 10;
+                    }
+                    
+                    // 随机动画延迟
+                    const delay = Math.random() * 20;
+                    
+                    snowflake.style.animation = `${animationName} ${duration}s linear ${delay}s infinite`;
+                    
+                    // 随机旋转
+                    const rotate = Math.random() * 360;
+                    snowflake.style.transform = `rotate(${rotate}deg)`;
+                    
+                    snowflakesContainer.appendChild(snowflake);
+                    snowflakes.push(snowflake);
+                }
+            }
+            
+            // 初始化粒子效果
+            function initParticles() {
+                particlesContainer.innerHTML = '';
+                particles = [];
+                
+                const particleCount = 50;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.style.position = 'absolute';
+                    particle.style.width = `${Math.random() * 3 + 1}px`;
+                    particle.style.height = particle.style.width;
+                    particle.style.borderRadius = '50%';
+                    particle.style.backgroundColor = getRandomColor();
+                    particle.style.left = `${Math.random() * 100}vw`;
+                    particle.style.top = `${Math.random() * 100}vh`;
+                    particle.style.opacity = Math.random() * 0.5 + 0.1;
+                    particle.style.filter = 'blur(1px)';
+                    
+                    // 随机动画
+                    const duration = Math.random() * 10 + 5;
+                    particle.style.animation = `snowFall ${duration}s linear ${Math.random() * 10}s infinite`;
+                    
+                    particlesContainer.appendChild(particle);
+                    particles.push(particle);
+                }
+            }
+            
+            // 获取随机颜色
+            function getRandomColor() {
+                const colors = ['#ff66b2', '#ff99cc', '#cc66ff', '#66ccff', '#ffcc00', '#99ff99', '#ff6666'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+            
+            // 初始化装饰品
+            function initOrnaments() {
+                document.querySelectorAll('.ornament').forEach(ornament => {
+                    ornament.remove();
+                });
+                
+                ornaments = [];
+                
+                const types = [
+                    {type: 'heart', class: 'heart-ornament'},
+                    {type: 'pink', class: 'pink'},
+                    {type: 'purple', class: 'purple'},
+                    {type: 'light-blue', class: 'light-blue'},
+                    {type: 'couple', class: 'couple'},
+                    {type: 'gold', class: 'gold'},
+                    {type: 'silver', class: 'silver'},
+                ];
+                
+                const positions = [
+                    {top: '540px', left: '50%'},
+                    {top: '490px', left: '40%'},
+                    {top: '490px', left: '60%'},
+                    {top: '440px', left: '45%'},
+                    {top: '440px', left: '55%'},
+                    {top: '390px', left: '35%'},
+                    {top: '390px', left: '50%'},
+                    {top: '390px', left: '65%'},
+                    {top: '340px', left: '40%'},
+                    {top: '340px', left: '60%'},
+                    {top: '290px', left: '45%'},
+                    {top: '290px', left: '55%'},
+                    {top: '240px', left: '50%'},
+                    {top: '460px', left: '30%'},
+                    {top: '460px', left: '70%'},
+                    {top: '410px', left: '25%'},
+                    {top: '410px', left: '75%'},
+                    {top: '360px', left: '30%'},
+                    {top: '360px', left: '70%'},
+                    {top: '500px', left: '55%'},
+                    {top: '500px', left: '45%'},
+                    {top: '430px', left: '35%'},
+                    {top: '430px', left: '65%'},
+                ];
+                
+                positions.forEach((pos, index) => {
+                    const typeIndex = index % types.length;
+                    createOrnament(pos.top, pos.left, types[typeIndex].class, types[typeIndex].type, index);
+                });
+            }
+            
+            // 创建装饰品
+            function createOrnament(top, left, ornamentClass, type, id) {
+                const ornament = document.createElement('div');
+                ornament.className = `ornament ${ornamentClass}`;
+                ornament.style.top = top;
+                ornament.style.left = left;
+                ornament.dataset.id = id;
+                ornament.dataset.type = type;
+                
+                // 随机动画延迟
+                ornament.style.animationDelay = `${Math.random() * 2}s`;
+                
+                // 添加装饰品内部图案
+                if (type === 'heart') {
+                    // 爱心装饰品已经有爱心符号
+                } else if (type === 'couple') {
+                    // 情侣装饰品已经有情侣符号
+                } else {
+                    // 普通彩球的高光
+                    const highlight = document.createElement('div');
+                    highlight.style.width = '14px';
+                    highlight.style.height = '14px';
+                    highlight.style.borderRadius = '50%';
+                    highlight.style.background = 'rgba(255, 255, 255, 0.9)';
+                    highlight.style.position = 'absolute';
+                    highlight.style.top = '20%';
+                    highlight.style.left = '30%';
+                    highlight.style.filter = 'blur(1px)';
+                    ornament.appendChild(highlight);
+                }
+                
+                // 添加点击效果
+                ornament.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    this.style.transform = 'scale(1.8) rotate(30deg)';
+                    this.style.boxShadow = '0 0 35px rgba(255, 255, 255, 1)';
+                    
+                    // 创建爱心动画
+                    createClickHeart(e.clientX, e.clientY);
+                    
+                    // 创建粒子爆炸效果
+                    createParticleExplosion(e.clientX, e.clientY, this.style.backgroundColor || '#ff66b2');
+                    
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1.6) rotate(20deg)';
+                        this.style.boxShadow = '0 0 25px rgba(255, 255, 255, 0.9)';
+                    }, 300);
+                });
+                
+                tree.appendChild(ornament);
+                ornaments.push(ornament);
+                
+                return ornament;
+            }
+            
+            // 创建点击爱心效果
+            function createClickHeart(x, y) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤';
+                heart.style.position = 'fixed';
+                heart.style.left = `${x}px`;
+                heart.style.top = `${y}px`;
+                heart.style.fontSize = '40px';
+                heart.style.color = '#ff66b2';
+                heart.style.pointerEvents = 'none';
+                heart.style.zIndex = '1000';
+                heart.style.transform = 'translate(-50%, -50%)';
+                heart.style.animation = 'snowFall 2s ease-out forwards';
+                heart.style.filter = 'drop-shadow(0 0 15px #ff66b2)';
+                
+                document.body.appendChild(heart);
+                
+                setTimeout(() => {
+                    if (heart.parentNode) {
+                        document.body.removeChild(heart);
+                    }
+                }, 2000);
+            }
+            
+            // 创建粒子爆炸效果
+            function createParticleExplosion(x, y, color) {
+                const particleCount = 15;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    setTimeout(() => {
+                        const particle = document.createElement('div');
+                        particle.style.position = 'fixed';
+                        particle.style.left = `${x}px`;
+                        particle.style.top = `${y}px`;
+                        particle.style.width = `${Math.random() * 6 + 2}px`;
+                        particle.style.height = particle.style.width;
+                        particle.style.borderRadius = '50%';
+                        particle.style.backgroundColor = color;
+                        particle.style.pointerEvents = 'none';
+                        particle.style.zIndex = '1000';
+                        particle.style.transform = 'translate(-50%, -50%)';
+                        particle.style.opacity = '0.8';
+                        particle.style.filter = 'blur(1px)';
+                        
+                        // 随机方向
+                        const angle = Math.random() * Math.PI * 2;
+                        const distance = Math.random() * 100 + 50;
+                        const duration = Math.random() * 1 + 0.5;
+                        
+                        particle.style.animation = `
+                            particleExplosion ${duration}s ease-out forwards
+                        `;
+                        
+                        // 设置自定义属性用于动画
+                        particle.style.setProperty('--end-x', `${Math.cos(angle) * distance}px`);
+                        particle.style.setProperty('--end-y', `${Math.sin(angle) * distance}px`);
+                        
+                        document.body.appendChild(particle);
+                        
+                        setTimeout(() => {
+                            if (particle.parentNode) {
+                                document.body.removeChild(particle);
+                            }
+                        }, duration * 1000);
+                    }, i * 30);
+                }
+            }
+            
+            // 添加粒子爆炸动画
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes particleExplosion {
+                    0% {
+                        transform: translate(-50%, -50%) scale(0);
+                        opacity: 1;
+                    }
+                    100% {
+                        transform: translate(calc(-50% + var(--end-x)), calc(-50% + var(--end-y))) scale(1);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // 初始化灯光
+            function initLights() {
+                lightsContainer.innerHTML = '';
+                lights = [];
+                
+                for (let i = 0; i < lightCount; i++) {
+                    const light = document.createElement('div');
+                    light.className = 'light';
+                    
+                    // 随机位置（在树范围内）
+                    const top = Math.random() * 620 + 80;
+                    const left = Math.random() * 330 + 110;
+                    
+                    light.style.top = `${top}px`;
+                    light.style.left = `${left}px`;
+                    
+                    // 随机颜色
+                    const colors = ['#ff66b2', '#ff99cc', '#cc66ff', '#66ccff', '#ffcc00', '#99ff99', '#ff6666', '#66ff99', '#ff9966', '#9966ff'];
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    light.style.backgroundColor = color;
+                    light.style.color = color;
+                    light.style.boxShadow = `0 0 20px ${color}`;
+                    
+                    // 随机动画
+                    light.style.animationDelay = `${Math.random() * 3}s`;
+                    light.style.animationDuration = `${0.5 + Math.random() * twinkleSpeed / 1.5}s`;
+                    
+                    lightsContainer.appendChild(light);
+                    lights.push(light);
+                }
+            }
+            
+            // 更新计时器
+            function updateTimer() {
+                const now = new Date();
+                const diff = now.getTime() - startDate.getTime();
+                
+                // 计算天、小时、分钟、秒
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                // 更新显示
+                daysEl.textContent = days.toString().padStart(3, '0');
+                hoursEl.textContent = hours.toString().padStart(2, '0');
+                minutesEl.textContent = minutes.toString().padStart(2, '0');
+                secondsEl.textContent = seconds.toString().padStart(2, '0');
+                
+                // 添加数字变化动画
+                [daysEl, hoursEl, minutesEl, secondsEl].forEach(el => {
+                    el.style.animation = 'none';
+                    setTimeout(() => {
+                        el.style.animation = 'countUp 0.5s ease-out';
+                    }, 10);
+                });
+            }
+            
+            // 切换情话
+            function changeLoveMessage() {
+                currentMessageIndex = (currentMessageIndex + 1) % loveMessages.length;
+                const message = loveMessages[currentMessageIndex];
+                
+                // 添加淡出淡入效果
+                messageText.style.opacity = '0';
+                messageAuthor.style.opacity = '0';
+                
+                setTimeout(() => {
+                    messageText.textContent = message.text;
+                    messageAuthor.textContent = message.author;
+                    
+                    messageText.style.opacity = '1';
+                    messageAuthor.style.opacity = '1';
+                    
+                    // 树顶爱心跳动
+                    heartTop.style.animation = 'none';
+                    setTimeout(() => {
+                        heartTop.style.animation = 'heartbeat 1.5s infinite alternate, float-heart 4s ease-in-out infinite, spin 10s linear infinite';
+                    }, 10);
+                    
+                    // 创建一些额外的雪花效果
+                    createExtraSnowflakes();
+                    
+                    // 创建粒子效果
+                    createMessageParticles();
+                }, 300);
+            }
+            
+            // 创建额外的雪花效果
+            function createExtraSnowflakes() {
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        const snowflake = document.createElement('div');
+                        snowflake.className = 'snowflake small';
+                        
+                        // 随机起始位置
+                        snowflake.style.left = `${Math.random() * 100}vw`;
+                        
+                        // 随机透明度
+                        const opacity = Math.random() * 0.7 + 0.3;
+                        snowflake.style.opacity = opacity;
+                        
+                        // 快速动画
+                        snowflake.style.animation = `snowFallFast ${Math.random() * 5 + 3}s linear forwards`;
+                        
+                        snowflakesContainer.appendChild(snowflake);
+                        
+                        // 雪花落地后移除
+                        setTimeout(() => {
+                            if (snowflake.parentNode === snowflakesContainer) {
+                                snowflake.remove();
+                            }
+                        }, 8000);
+                    }, i * 100);
+                }
+            }
+            
+            // 创建消息切换时的粒子效果
+            function createMessageParticles() {
+                const messageRect = document.querySelector('.message-box').getBoundingClientRect();
+                const centerX = messageRect.left + messageRect.width / 2;
+                const centerY = messageRect.top + messageRect.height / 2;
+                
+                for (let i = 0; i < 30; i++) {
+                    setTimeout(() => {
+                        createParticleExplosion(centerX, centerY, getRandomColor());
+                    }, i * 30);
+                }
+            }
+            
+            // 树顶爱心点击事件
+            heartTop.addEventListener('click', function() {
+                this.style.animationDuration = '0.8s';
+                setTimeout(() => {
+                    this.style.animationDuration = '8s';
+                }, 800);
+                
+                // 爱心点击时所有装饰品闪烁
+                ornaments.forEach(ornament => {
+                    ornament.style.boxShadow = '0 0 35px rgba(255, 255, 255, 1)';
+                    setTimeout(() => {
+                        ornament.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.3)';
+                    }, 500);
+                });
+                
+                // 切换情话
+                changeLoveMessage();
+            });
+            
+            // 礼物点击事件
+            gifts.forEach(gift => {
+                gift.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const giftNum = this.dataset.gift;
+                    let message = '';
+                    let emoji = '';
+                    
+                    switch(giftNum) {
+                        case '1':
+                            message = 'My dear JAYNE, this gift represents my eternal love for you. May our relationship be as romantic and fragrant as pink roses.';
+                            emoji = '💖';
+                            break;
+                        case '2':
+                            message = 'You are the most precious gift in my life. Every day with you is a blessing from heaven.';
+                            emoji = '🎁';
+                            break;
+                        case '3':
+                            message = 'May our future be as vast as the blue sky, as brilliant as the stars, always together and supporting each other.';
+                            emoji = '🌟';
+                            break;
+                        case '4':
+                            message = 'You are the brightest light in my heart, illuminating my path forward and warming every corner of my life.';
+                            emoji = '✨';
+                            break;
+                    }
+                    
+                    // 创建祝福弹窗
+                    createMessageModal(`A Gift For You ${emoji}`, message);
+                    
+                    // 添加动画效果
+                    this.style.transform = 'translateY(-25px) scale(1.25) rotateY(30deg)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(-20px) scale(1.2) rotateY(20deg)';
+                    }, 300);
+                    
+                    // 创建粒子效果
+                    const rect = this.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+                    createParticleExplosion(centerX, centerY, getGiftColor(giftNum));
+                });
+            });
+            
+            // 获取礼物颜色
+            function getGiftColor(giftNum) {
+                switch(giftNum) {
+                    case '1': return '#ff66b2';
+                    case '2': return '#cc66ff';
+                    case '3': return '#66ccff';
+                    case '4': return '#ffcc00';
+                    default: return '#ff66b2';
+                }
+            }
+            
+            // 创建消息弹窗
+            function createMessageModal(title, message) {
+                const modal = document.createElement('div');
+                modal.style.position = 'fixed';
+                modal.style.top = '0';
+                modal.style.left = '0';
+                modal.style.width = '100%';
+                modal.style.height = '100%';
+                modal.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                modal.style.display = 'flex';
+                modal.style.justifyContent = 'center';
+                modal.style.alignItems = 'center';
+                modal.style.zIndex = '2000';
+                modal.style.backdropFilter = 'blur(5px)';
+                
+                const modalContent = document.createElement('div');
+                modalContent.style.background = 'linear-gradient(135deg, rgba(102, 0, 102, 0.95), rgba(153, 0, 102, 0.95))';
+                modalContent.style.padding = '30px';
+                modalContent.style.borderRadius = '20px';
+                modalContent.style.maxWidth = '500px';
+                modalContent.style.width = '90%';
+                modalContent.style.boxShadow = 
+                    '0 25px 60px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(255, 204, 255, 0.2)';
+                modalContent.style.border = '2px solid rgba(255, 204, 255, 0.3)';
+                modalContent.style.textAlign = 'center';
+                modalContent.style.animation = 'fadeIn 0.5s ease-out';
+                modalContent.style.position = 'relative';
+                modalContent.style.overflow = 'hidden';
+                
+                // 添加光效背景
+                modalContent.innerHTML += `
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(45deg, transparent 30%, rgba(255, 204, 255, 0.1) 50%, transparent 70%); z-index: -1; animation: shine 6s infinite linear;"></div>
+                `;
+                
+                const modalTitle = document.createElement('h2');
+                modalTitle.textContent = title;
+                modalTitle.style.color = '#ffccff';
+                modalTitle.style.marginBottom = '20px';
+                modalTitle.style.fontSize = '1.8rem';
+                modalTitle.style.fontFamily = "'Mountains of Christmas', cursive";
+                modalTitle.style.lineHeight = '1.3';
+                modalTitle.style.textShadow = '0 0 15px rgba(255, 204, 255, 0.5)';
+                
+                const modalMessage = document.createElement('p');
+                modalMessage.textContent = message;
+                modalMessage.style.color = '#ffccff';
+                modalMessage.style.fontSize = '1.2rem';
+                modalMessage.style.lineHeight = '1.6';
+                modalMessage.style.marginBottom = '25px';
+                modalMessage.style.textShadow = '0 0 10px rgba(255, 204, 255, 0.3)';
+                
+                const closeBtn = document.createElement('button');
+                closeBtn.textContent = 'Close';
+                closeBtn.style.background = 'linear-gradient(135deg, #ff66b2 0%, #ff99cc 100%)';
+                closeBtn.style.border = 'none';
+                closeBtn.style.borderRadius = '10px';
+                closeBtn.style.padding = '12px 30px';
+                closeBtn.style.color = 'white';
+                closeBtn.style.fontWeight = '600';
+                closeBtn.style.cursor = 'pointer';
+                closeBtn.style.fontSize = '1.1rem';
+                closeBtn.style.transition = 'all 0.3s ease';
+                closeBtn.style.boxShadow = '0 5px 15px rgba(255, 102, 178, 0.3)';
+                
+                closeBtn.addEventListener('mouseenter', () => {
+                    closeBtn.style.transform = 'translateY(-3px)';
+                    closeBtn.style.boxShadow = '0 8px 20px rgba(255, 102, 178, 0.4)';
+                });
+                
+                closeBtn.addEventListener('mouseleave', () => {
+                    closeBtn.style.transform = 'translateY(0)';
+                    closeBtn.style.boxShadow = '0 5px 15px rgba(255, 102, 178, 0.3)';
+                });
+                
+                closeBtn.addEventListener('click', () => {
+                    document.body.removeChild(modal);
+                });
+                
+                modalContent.appendChild(modalTitle);
+                modalContent.appendChild(modalMessage);
+                modalContent.appendChild(closeBtn);
+                modal.appendChild(modalContent);
+                
+                document.body.appendChild(modal);
+                
+                // 点击模态框外部关闭
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        document.body.removeChild(modal);
+                    }
+                });
+            }
+            
+            // 页面点击切换情话
+            document.body.addEventListener('click', function(e) {
+                if (!e.target.closest('.gift') && 
+                    !e.target.closest('.ornament') && 
+                    !e.target.closest('.heart-top') &&
+                    e.target.id !== 'music-toggle' &&
+                    !e.target.closest('.music-btn') &&
+                    !e.target.closest('.modal') &&
+                    !e.target.closest('.message-box')) {
+                    changeLoveMessage();
+                }
+            });
+            
+            // 音乐控制
+            const audio = new Audio('https://assets.mixkit.co/music/preview/mixkit-christmas-is-here-479.mp3');
+            audio.loop = true;
+            audio.volume = 0.5;
+            
+            let isPlaying = false;
+            musicToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (isPlaying) {
+                    audio.pause();
+                    this.innerHTML = '<i class="fas fa-music"></i>';
+                    this.style.animation = 'none';
+                } else {
+                    audio.play().catch(e => {
+                        createMessageModal('Background Music', 'Please click anywhere on the page first, then click the music button to play background music.');
+                    });
+                    this.innerHTML = '<i class="fas fa-pause"></i>';
+                    this.style.animation = 'musicBtnGlow 2s infinite alternate';
+                }
+                isPlaying = !isPlaying;
+            });
+            
+            // 初始化
+            initStars();
+            initSnowflakes();
+            initParticles();
+            initOrnaments();
+            initLights();
+            
+            // 初始更新计时器
+            updateTimer();
+            
+            // 每秒更新计时器
+            setInterval(updateTimer, 1000);
+            
+            // 页面加载完成后显示欢迎消息
+            setTimeout(() => {
+                messageText.style.opacity = '0';
+                messageAuthor.style.opacity = '0';
+                
+                setTimeout(() => {
+                    const firstMessage = loveMessages[0];
+                    messageText.textContent = firstMessage.text;
+                    messageAuthor.textContent = firstMessage.author;
+                    
+                    messageText.style.opacity = '1';
+                    messageAuthor.style.opacity = '1';
+                    
+                    // 初始粒子效果
+                    createMessageParticles();
+                }, 300);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
